@@ -2,15 +2,15 @@ const mysql = require("mysql");
 const { DB_NAME } = require("./databaseConfig")
 
 const createDBCon = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password"
+    host: "148.66.138.139",
+    user: "fifokart",
+    password: "Fifokart@123"
 });
 
 const config = {
-    host: "localhost",
-    user: "root",
-    password: "password",
+    host: "148.66.138.139",
+    user: "fifokart",
+    password: "Fifokart@123"
     database: DB_NAME
 };
 
