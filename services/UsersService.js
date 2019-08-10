@@ -30,7 +30,7 @@ function getUsers() {
 function addUser(body) {
     return new Promise(function (resolve, reject) {
         const {name, emailId, phone, password} = body;
-        pool.query(`INSERT INTO users (name, email_id, phone, password) values ('${name}', '${emailId}', '${phone})', '${md5(password)}')`, (error, result) => {
+        pool.query(`INSERT INTO users (name, email_id, phone, password) values ('${name}', '${emailId}', '${phone}', '${md5(password)}')`, (error, result) => {
             if (error) {
                 if (error.errno === 1062) {
                     resolve({
@@ -40,6 +40,7 @@ function addUser(body) {
                 } else throw error;
             } else {
                 if (result.affectedRows > 0) {
+                    delete body.password;
                     resolve({
                         statusCode: 201,
                         response: {success: 1, message: `User registered successfully`, context: body}
@@ -55,4 +56,32 @@ function addUser(body) {
     })
 }
 
-module.exports = {getUsers, addUser};
+function login(body) {
+    const {phone, password} = body;
+    return new Promise(function (resolve, reject) {
+            pool.query(`select * from users where phone='${phone}' AND password='${md5(password)}'`, (error, result) => {
+                if (error) {
+                    throw error;
+                } else {
+                    if (result.length > 0) {
+                        delete result[0].password;
+                        resolve({
+                            statusCode: 200,
+                            response: {success: 1, message: "Login Successfull", data: result[0]}
+                        })
+                    } else {
+                        resolve({
+                            statusCode: 401,
+                            response: {
+                                success: 0,
+                                message: "Invalid Credential"
+                            }
+                        })
+                    }
+                }
+            });
+        }
+    )
+}
+
+module.exports = {getUsers, addUser, login};
