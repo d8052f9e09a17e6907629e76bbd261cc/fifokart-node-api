@@ -10,7 +10,7 @@ const createDBCon = mysql.createConnection({
 const config = {
     host: "148.66.138.139",
     user: "fifokart",
-    password: "Fifokart@123"
+    password: "Fifokart@123",
     database: DB_NAME
 };
 
