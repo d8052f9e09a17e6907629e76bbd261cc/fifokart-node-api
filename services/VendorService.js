@@ -49,7 +49,7 @@ function addVendor(body) {
                             delete body.password;
                             resolve({
                                 statusCode: 201,
-                                response: {success: 1, message: `User registered successfully`, context: body}
+                                response: {success: 1, message: `vendor added successfully`, context: body}
                             })
                         } else {
                             resolve({
