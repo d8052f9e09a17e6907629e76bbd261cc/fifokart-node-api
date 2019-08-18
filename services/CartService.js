@@ -18,9 +18,10 @@ function getCart(userId) {
           } else throw error;
         } else {
           if (result.length > 0) {
+            result[0].cart_details = JSON.parse(result[0].cart_details);
             resolve({
               statusCode: 200,
-              response: { success: 1, data: result },
+              response: { success: 1, data: result[0] },
             });
           } else {
             resolve({
