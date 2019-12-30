@@ -1,0 +1,102 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Happy New Year</title>
+    <link rel="stylesheet" href="./css/style.css" type="text/css"/>
+
+    <script type="text/javascript" src="./js/main.js"></script>
+</head>
+
+<body class="container">
+        <div id="wrapper">
+        </div>
+        <div class="blur"></div class="blur">
+        <div id="wish">
+          <img src='./images/newyear.gif' />
+          <div id="demo" style="color: lime; font-size: 45px;"></div>
+          <div id="message"><%= message %></div>
+          <div id="from">From: <%= name %></div>
+        </div>
+        
+            <div id="whatsapp">
+              <div><div class="whatsapp-label">Enter name & msg to send on whatsapp</div><input placeholder="Enter Name" type='text' id='whatsapp-text' /></div>
+              <div><textarea maxlength="150" id="whatsapp-desc" placeholder="Enter Message"></textarea></div>
+              <a id="whatsapp-link" style='color:lime'; onclick="submitForm('<%= id %>')"><img width='30px' height='30px' src='./images/wp.png'/> Submit</a>
+            </div>
+
+        <script type="text/javascript">
+
+            // Set the date we're counting down to
+            var countDownDate = new Date("Jan 1, 2020 00:00:00").getTime();
+            calculateTime()
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+              calculateTime()
+                // Get todays date and time
+                
+            }, 1000);
+
+            async function submitForm(id){
+              var name = document.getElementById("whatsapp-text").value;
+              var msg = document.getElementById("whatsapp-desc").value;
+              if(name && msg){
+                window.location.href = 'whatsapp://send?text=Touch this blue line enter your name and see magic 👉 http://fifokart-node-api.herokuapp.com/'+id
+              
+                var http = new XMLHttpRequest();
+                var url = '/'+id;
+                var params = 'name='+name+'&message='+msg;
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                http.onreadystatechange = function() {
+                    if(http.status == 200) {
+                        if(http.responseText){
+                          location.reload()
+                        }
+                    }
+                }
+                http.send(params);
+                // window.reload()
+              }else{
+                alert("Please enter name and message")
+              }
+              // const id = <%= id %>;
+              // console.log('whatsapp://send?text=Touch this blue line enter your name and see magic 👉 http://fifokart-node-api.herokuapp.com/{{id}}')
+              // document.getElementById("whatsapp-link").href= 'whatsapp://send?text=Touch this blue line enter your name and see magic 👉 http://fifokart-node-api.herokuapp.com/'+id
+            }
+
+            function calculateTime(){
+              var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) + (days*24);
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Output the result in an element with id="demo"
+                document.getElementById("demo").innerHTML = "In Advance <div class='time'>" + hours + " : " + minutes + " : " + seconds+"</div>";
+
+                // If the count down is over, write some text 
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("demo").innerHTML = "Enjoy 2020";
+                }
+            }
+        </script>
+    </body class="container">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106553549-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-106553549-2');
+    </script>
+
+</html>
