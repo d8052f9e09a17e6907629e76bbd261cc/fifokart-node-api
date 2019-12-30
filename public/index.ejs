@@ -20,7 +20,7 @@
         
             <div id="whatsapp">
               <div><div class="whatsapp-label">Enter name & msg to send on whatsapp</div><input placeholder="Enter Name" type='text' id='whatsapp-text' /></div>
-              <div><textarea maxlength="150" id="whatsapp-desc" placeholder="Enter Message"></textarea></div>
+              <div><textarea maxlength="180" id="whatsapp-desc" placeholder="Enter Message (Optional)"></textarea></div>
               <a id="whatsapp-link" style='color:lime'; onclick="submitForm('<%= id %>')"><img width='30px' height='30px' src='./images/wp.png'/> Submit</a>
             </div>
 
@@ -39,7 +39,7 @@
             async function submitForm(id){
               var name = document.getElementById("whatsapp-text").value;
               var msg = document.getElementById("whatsapp-desc").value;
-              if(name && msg){
+              if(name){
                 window.location.href = 'whatsapp://send?text=Touch this blue line enter your name and see magic 👉 http://fifokart-node-api.herokuapp.com/'+id
               
                 var http = new XMLHttpRequest();
