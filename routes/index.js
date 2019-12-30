@@ -13,7 +13,14 @@ var md5 = require("md5");
 
 /* GET home page. */
 router.get("/:id", function(req, res, next) {
-  const msg = JSON.parse(fs.readFileSync("./data/data.json", "utf-8"));
+  var msg = "";
+  try {
+    msg = JSON.parse(fs.readFileSync("./data/data.json", "utf-8"));
+  } catch (e) {
+    msg =
+      "Wishing you a great new year 2020! I hope your life will be full of surprise and joy in the new year that's about to begin. May You be blessed with everything you want in life.";
+  }
+
   const id = md5(msg.length + 1);
   const d = msg.filter(a => {
     return a.id === req.params.id;
@@ -22,7 +29,7 @@ router.get("/:id", function(req, res, next) {
     d.length > 0
       ? d[0].message
       : "Wishing you a great new year 2020! I hope your life will be full of surprise and joy in the new year that's about to begin. May You be blessed with everything you want in life.";
-  const name = d.length > 0 ? d[0].name : "";
+  const name = d.length > 0 ? d[0].name : "Mohit Prakash";
   res.render("index.ejs", {
     id,
     message,
