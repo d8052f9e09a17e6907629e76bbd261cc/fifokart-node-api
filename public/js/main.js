@@ -10,8 +10,8 @@ window.requestAnimFrame = (function() {
 })();
 var canvas = document.getElementById("canvas"),
   ctx = canvas.getContext("2d"),
-  cw = window.outerWidth,
-  ch = window.outerHeight,
+  cw = window.innerWidth,
+  ch = window.innerHeight,
   fireworks = [],
   particles = [],
   hue = 120,
