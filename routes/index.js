@@ -14,6 +14,7 @@ var md5 = require("md5");
 /* GET home page. */
 router.get("/:id", function(req, res, next) {
   var msg = "";
+  const type = req.device.type;
   try {
     msg = JSON.parse(fs.readFileSync("./data/data.json", "utf-8"));
   } catch (e) {
@@ -33,16 +34,21 @@ router.get("/:id", function(req, res, next) {
   res.render("index.ejs", {
     id,
     message,
-    name
+    name,
+    type,
+    user: req.headers["user-agent"]
   });
 });
 
 router.post("/:id", function(req, res, next) {
   const msg = JSON.parse(fs.readFileSync("./data/data.json", "utf-8"));
+  const type = req.device.type;
   msg.push({
     id: req.params.id,
     message: req.body.message,
-    name: req.body.name
+    name: req.body.name,
+    type,
+    user: req.headers["user-agent"]
   });
   fs.writeFileSync("./data/data.json", JSON.stringify(msg));
   res.send("Data added successfully");
