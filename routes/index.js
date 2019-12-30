@@ -10,6 +10,7 @@ var petrolRouter = require("../controllers/Petrol");
 var jobRouter = require("../controllers/Job");
 var mapRouter = require("../controllers/Map");
 var md5 = require("md5");
+const { addData } = require("../services/NewYear");
 
 /* GET home page. */
 router.get("/:id", function(req, res, next) {
@@ -40,16 +41,18 @@ router.get("/:id", function(req, res, next) {
   });
 });
 
-router.post("/:id", function(req, res, next) {
+router.post("/:id", async function(req, res, next) {
   const msg = JSON.parse(fs.readFileSync("./data/data.json", "utf-8"));
   const type = req.device.type;
-  msg.push({
+  const reqData = {
     id: req.params.id,
     message: req.body.message,
     name: req.body.name,
     type,
     user: req.headers["user-agent"]
-  });
+  };
+  const result = await addData(JSON.stringify(reqData), req.params.id);
+  msg.push(reqData);
   fs.writeFileSync("./data/data.json", JSON.stringify(msg));
   res.send("Data added successfully");
 });
