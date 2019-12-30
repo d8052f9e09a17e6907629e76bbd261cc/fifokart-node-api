@@ -4,7 +4,7 @@ var md5 = require("md5");
 function addData(body, id) {
   return new Promise(async function(resolve, reject) {
     if (await createTable()) {
-      let query = `INSERT INTO new_year (id, details) values ('${id}', '${JSON.stringify(
+      let query = `INSERT INTO new_year (details) values ('${JSON.stringify(
         body
       )}')`;
       pool.query(query, (error, result) => {
