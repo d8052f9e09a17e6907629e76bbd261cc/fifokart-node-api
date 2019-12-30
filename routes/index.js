@@ -11,7 +11,7 @@ var mapRouter = require("../controllers/Map");
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  res.render("index", { title: "Express" });
+  res.render("index.html");
 });
 
 router.use("/user", userRouter);

@@ -7,6 +7,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var engines = require("consolidate");
 const { createDBCon } = require("./config/config");
 var swaggerJSDoc = require("swagger-jsdoc");
 
