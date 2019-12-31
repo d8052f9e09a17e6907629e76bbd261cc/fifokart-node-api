@@ -10,7 +10,7 @@ var petrolRouter = require("../controllers/Petrol");
 var jobRouter = require("../controllers/Job");
 var mapRouter = require("../controllers/Map");
 var md5 = require("md5");
-const { addData } = require("../services/NewYear");
+const { addData, addGetData } = require("../services/NewYear");
 
 /* GET home page. */
 router.get("/:id", function(req, res, next) {
@@ -23,7 +23,7 @@ router.get("/:id", function(req, res, next) {
       "Wishing you a great new year 2020! I hope your life will be full of surprise and joy in the new year that's about to begin. May You be blessed with everything you want in life.";
   }
 
-  const id = md5(msg.length + 1);
+  const id = md5(Math.floor(Math.random() * 10000000000));
   const d = msg.filter(a => {
     return a.id === req.params.id;
   });
@@ -32,6 +32,7 @@ router.get("/:id", function(req, res, next) {
       ? d[0].message
       : "Wishing you a great new year 2020! I hope your life will be full of surprise and joy in the new year that's about to begin. May You be blessed with everything you want in life.";
   const name = d.length > 0 ? d[0].name : "Mohit Prakash";
+  addGetData(req.headers["user-agent"], id);
   res.render("index.ejs", {
     id,
     message,
