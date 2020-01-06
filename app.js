@@ -10,10 +10,12 @@ var usersRouter = require("./routes/users");
 var engines = require("consolidate");
 const { createDBCon } = require("./config/config");
 var swaggerJSDoc = require("swagger-jsdoc");
-var device = require('express-device');
-
+var device = require("express-device");
+var cors = require("cors");
 
 var app = express();
+
+app.use(cors());
 
 app.use(device.capture());
 
