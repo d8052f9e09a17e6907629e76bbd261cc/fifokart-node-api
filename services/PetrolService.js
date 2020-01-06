@@ -1,11 +1,11 @@
 const { pool } = require("../config/config");
 var md5 = require("md5");
 
-function getList(deviceId) {
+function getList(loginType, loginId) {
   return new Promise(function(resolve, reject) {
-    console.log("deviceId", deviceId);
+    console.log("logintype loginid: ", loginType, loginId);
     pool.query(
-      `select * from petrol where device_id=${deviceId} `,
+      `select * from petrol where login_type='${loginType}'  AND login_id='${loginId}'`,
       (error, result) => {
         if (error) {
           if (error.errno === 1146) {
@@ -38,11 +38,11 @@ function getList(deviceId) {
   });
 }
 
-function addPetrolInList(body, deviceId) {
+function addPetrolInList(body, loginType) {
   return new Promise(async function(resolve, reject) {
     if (await createTable()) {
-      const { quantity, price, distance } = body;
-      let query = `INSERT INTO petrol (device_id, date, quantity, price, distance) values ('${deviceId}', '${new Date().getTime()}', '${quantity}', '${price}', '${distance}')`;
+      const { quantity, price, distance, loginId, date } = body;
+      let query = `INSERT INTO petrol (login_type, login_id, date, quantity, price, distance) values ('${loginType}', '${loginId}', '${date}', '${quantity}', '${price}', '${distance}')`;
       pool.query(query, (error, result) => {
         console.log("result", result);
         console.log("query", query);
@@ -83,8 +83,8 @@ function addPetrolInList(body, deviceId) {
 
 function editPetrolInList(body, uniqueId) {
   return new Promise(async function(resolve, reject) {
-    const { quantity, price, distance } = body;
-    let query = `UPDATE petrol SET quantity='${quantity}', price='${price}', distance='${distance}' where unique_id=${uniqueId}`;
+    const { quantity, price, distance, date } = body;
+    let query = `UPDATE petrol SET date='${date}', quantity='${quantity}', price='${price}', distance='${distance}' where unique_id=${uniqueId}`;
     pool.query(query, (error, result) => {
       if (error) {
         resolve({
@@ -138,7 +138,7 @@ function checkDeviceInPetrol(unique_id) {
 function createTable() {
   return new Promise(function(resolve, reject) {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS petrol (unique_id int AUTO_INCREMENT, device_id int, date text, quantity text, price text, distance int, PRIMARY KEY (unique_id))`,
+      `CREATE TABLE IF NOT EXISTS petrol (unique_id int AUTO_INCREMENT, login_type text, login_id text, date text, quantity text, price text, distance int, PRIMARY KEY (unique_id))`,
       (error, result) => {
         if (error) {
           resolve(false);

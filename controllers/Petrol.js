@@ -3,18 +3,17 @@ var router = express.Router();
 var {
   getList,
   addPetrolInList,
-  editPetrolInList,
   editPetrolInList
 } = require("../services/PetrolService");
 
-router.route("/:deviceId").get(async function(req, res, next) {
-  const result = await getList(req.params.deviceId);
+router.route("/:loginType/:loginId").get(async function(req, res, next) {
+  const result = await getList(req.params.loginType, req.params.loginId);
   res.statusCode = result.statusCode;
   res.send(result.response);
 });
 
-router.route("/:deviceId").post(async function(req, res, next) {
-  const result = await addPetrolInList(req.body, req.params.deviceId);
+router.route("/:loginType").post(async function(req, res, next) {
+  const result = await addPetrolInList(req.body, req.params.loginType);
   res.statusCode = result.statusCode;
   res.send(result.response);
 });
